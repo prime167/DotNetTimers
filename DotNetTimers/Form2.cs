@@ -4,28 +4,24 @@ using System.Windows.Forms;
 
 namespace DotNetTimers
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
         private int _count;
-        private readonly Timer _timer = new Timer();
+        private readonly System.Timers.Timer _timer = new System.Timers.Timer();
         private readonly Label _lblCount = new Label();
 
-        public Form1()
+        public Form2()
         {
             InitializeComponent();
-            Size = new Size(450, 450);
+            Size = new Size(450,450);
             Controls.Add(_lblCount);
             _lblCount.Location = new Point(200, 200);
             _timer.Interval = 100;
-            _timer.Tick += timer1_Tick;
+            _timer.SynchronizingObject = this;
+            _timer.Elapsed += _timer_Elapsed;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            _timer.Start();
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _count++;
             _lblCount.Text = _count.ToString("0000");
@@ -33,6 +29,11 @@ namespace DotNetTimers
             {
                 _timer.Stop();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            _timer.Start();
         }
     }
 }
